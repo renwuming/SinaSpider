@@ -1,8 +1,8 @@
-const utils = require('./utils');
+const utils = require('./utils')
 const baseWebpackConfig = require('./webpack.base.config')
-const webpack = require('webpack');
+const webpack = require('webpack')
 const merge = require('webpack-merge')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const vuxLoader = require("vux-loader")
