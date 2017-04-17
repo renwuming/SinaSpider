@@ -12,7 +12,6 @@ const HOME_URL = "http://weibo.cn/"
 const SEARCH_URL = 'https://weibo.cn/search/';
 const CHROME_HEADERS = 
 {
-    // "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
     "Content-Type": "application/x-www-form-urlencoded",
     "Referer": "http://weibo.cn/",
@@ -26,11 +25,6 @@ console.log(ctx);
 });
 
 r.get("/prelogin", async function(ctx) {
-  rp({
-    uri: "http://127.0.0.1:7888/api/test"
-  })
-  .then($ => {});
-
   let options = 
   {
     uri: LOGIN_URL,
@@ -59,7 +53,7 @@ r.get("/prelogin", async function(ctx) {
 });
 
 r.post("/login", async function(ctx) {
-  // j.setCookie("SUB=", HOME_URL); // 清空cookie
+  j.setCookie("SUB=", HOME_URL); // 清空cookie
 
   let q = ctx.request.body;
   q[q.pwname] = q.password;
@@ -76,7 +70,6 @@ r.post("/login", async function(ctx) {
   await rp(options)
   .then(res => {})
   .catch(err => {
-console.log(err)
     let cookies = err.response.req._headers.cookie;
     updateCookieList(q.mobile, cookies);
   });
@@ -99,7 +92,7 @@ r.post("/creep", async function(ctx) {
     wblist = [],
     fanslist = [],
     creepData = {totalPage: 1, rows: []};
-  // j.setCookie("SUB=", HOME_URL); // 清空cookie
+  j.setCookie("SUB=", HOME_URL); // 清空cookie
   j.setCookie(getCookie(cookie_name), HOME_URL); // 使用指定账号的cookie
 
   await rp(options)
@@ -164,17 +157,16 @@ async function testCookie() {
   return await rp({
     uri: HOME_URL,
     headers: CHROME_HEADERS,
-    // transform: b => cheerio.load(b),
-    resolveWithFullResponse: true
+    transform: b => cheerio.load(b),
   })
   .then($ => {
-// console.log($);
-    // let test = $(".ut").text();
-    // if(test.indexOf("详细资料") >= 0) {
-    //   return {success: true};
-    // } else {
-    //   return {err: true};
-    // }
+    let test = $(".ut").text();
+    return {success: true}; // ------- todo ------
+    if(test.indexOf("详细资料") >= 0) {
+      return {success: true};
+    } else {
+      return {err: true};
+    }
   })
   .catch(err => {
     return {err: err};
@@ -182,7 +174,6 @@ async function testCookie() {
 }
 
 let updateCookieList = (name, cookie) => {
-console.log(cookie);
   if(!cookieList[name]) {
     cookieList[name] = {};
   }
@@ -190,17 +181,18 @@ console.log(cookie);
 }
 
 let getCookie = (name) => {
-  if(!cookieList[name]) {
-    return "";
-  }
-  let list = cookieList[name].cookie.split(";"),
-    cookie;
-  list.forEach(e => {
-    if(e.indexOf("SUB=") >= 0) {
-      cookie = e;
-    }
-  });
-  return request.cookie(cookie);
+  // if(!cookieList[name]) {
+  //   return "";
+  // }
+  // let list = cookieList[name].cookie.split(";"),
+  //   cookie;
+  // list.forEach(e => {
+  //   if(e.indexOf("SUB=") >= 0) {
+  //     cookie = e;
+  //   }
+  // });
+  // return request.cookie(cookie);
+  return request.cookie("SUB=_2A2518BJjDeRhGeNK41sT-C3LzzWIHXVXGr4rrDV6PUJbkdAKLW_gkW1SuGblcSoCjhs17oOgeKeQnrgqSQ.."); // ------- todo ------
 }
 
 let decodeHtml = (str) => {
