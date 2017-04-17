@@ -49,7 +49,7 @@ r.get("/prelogin", async function(ctx) {
 });
 
 r.post("/login", async function(ctx) {
-  j.setCookie("SUB=", HOME_URL); // 清空cookie
+  // j.setCookie("SUB=", HOME_URL); // 清空cookie
 
   let q = ctx.request.body;
   q[q.pwname] = q.password;
@@ -89,7 +89,7 @@ r.post("/creep", async function(ctx) {
     wblist = [],
     fanslist = [],
     creepData = {totalPage: 1, rows: []};
-  j.setCookie("SUB=", HOME_URL); // 清空cookie
+  // j.setCookie("SUB=", HOME_URL); // 清空cookie
   j.setCookie(getCookie(cookie_name), HOME_URL); // 使用指定账号的cookie
 
   await rp(options)
