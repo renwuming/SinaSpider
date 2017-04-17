@@ -63,6 +63,7 @@ r.post("/login", async function(ctx) {
   await rp(options)
   .then(res => {})
   .catch(err => {
+console.log(err)
     let cookies = err.response.req._headers.cookie;
     updateCookieList(q.mobile, cookies);
   });
