@@ -7,7 +7,7 @@
     <swiper-item>
       <group>
         <swipeout>
-          <swipeout-item v-for="(item, index) in accountlist" transition-mode="follow">
+          <swipeout-item v-for="(item, index) in accountlist" transition-mode="follow" :key="index">
             <div slot="right-menu">
               <swipeout-button type="warn" @click.native="deleteAccount(index)">删除</swipeout-button>
             </div>

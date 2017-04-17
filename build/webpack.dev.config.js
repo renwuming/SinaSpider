@@ -3,7 +3,6 @@ const baseWebpackConfig = require('./webpack.base.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const vuxLoader = require("vux-loader")
 
@@ -26,7 +25,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   plugins: [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
-  new FriendlyErrorsPlugin(),
   new HtmlWebpackPlugin({
     filename: "index.html",
     template: "index.html",
