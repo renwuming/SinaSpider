@@ -15,8 +15,9 @@ const CHROME_HEADERS =
     // "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
     "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0",
     "Content-Type": "application/x-www-form-urlencoded",
-    "Referer": "http://54.149.135.77:7888/",
-    "X-Forwarded-For": "http://54.149.135.77:7888/"
+    "Referer": "http://localhost:7878/",
+    "Origin": "http://localhost:7878",
+    "X-Forwarded-For": "http://localhost:7878/"
 }
 
 r.get("/prelogin", async function(ctx) {
@@ -152,6 +153,7 @@ r.post("/creep", async function(ctx) {
 async function testCookie() {
   return await rp({
     uri: HOME_URL,
+    headers: CHROME_HEADERS,
     // transform: b => cheerio.load(b),
     resolveWithFullResponse: true
   })
