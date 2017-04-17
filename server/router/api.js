@@ -12,7 +12,8 @@ const HOME_URL = "http://weibo.cn/"
 const SEARCH_URL = 'https://weibo.cn/search/';
 const CHROME_HEADERS = 
 {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
+    // "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0",
     "Content-Type": "application/x-www-form-urlencoded"
 }
 
@@ -151,6 +152,7 @@ async function testCookie() {
     transform: b => cheerio.load(b)
   })
   .then($ => {
+console.log($.text());
     let test = $(".ut").text();
     if(test.indexOf("详细资料") >= 0) {
       return {success: true};
@@ -164,6 +166,7 @@ async function testCookie() {
 }
 
 let updateCookieList = (name, cookie) => {
+console.log(cookie);
   if(!cookieList[name]) {
     cookieList[name] = {};
   }

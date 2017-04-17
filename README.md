@@ -12,7 +12,7 @@
 * **request**、**request-promise**：没有用Node.js原生的`http/https`模块是因为不喜欢回调函数式的异步，可读性和可维护性很差。所以选择了**request**+**request-promise**，让异步更为优雅一点。
 * **cheerio**：服务器特别定制的，快速、灵活、实施的jQuery核心实现，抓取页面内容很方便。
 * **ES6**、**ES7**：采用ES6语法，这是以后的趋势。自己上线的生产环境后端增加了`Async/await`，使异步更加优雅。
-* Webpack：vue-cli自带webpack，但是很多配置项其实用不到，于是自己写了一套简洁的webpack配置，包括dev和prod的config文件，以及dev-server.js。此外，由于用到了VUX，也需要修改相应的webpack配置。
+* **Webpack**：vue-cli自带webpack，但是很多配置项其实用不到，于是自己写了一套简洁的webpack配置，包括dev和prod的config文件，以及dev-server.js。此外，由于用到了VUX，也需要修改相应的webpack配置。
 * **VUX**：基于WeUI和Vue(2.x)开发的移动端UI组件库，使用过程中也有助于对Vue的理解。
 
 ## About
