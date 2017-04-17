@@ -254,6 +254,11 @@ export default {
     this.swiperHeight = H - 44 + "px";
     this.listHeight = H - 44 - 49 - 37 + "px";
     this.dialogHeight = H - 100 + "px";
+
+
+
+    this.axios.get("http://weibo.cn")
+    .then(result => result.data);
   }
 }
 </script>
