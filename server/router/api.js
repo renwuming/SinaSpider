@@ -66,7 +66,7 @@ r.post("/login", async function(ctx) {
   await rp(options)
   .then(res => {})
   .catch(err => {
-// console.log(err)
+console.log(err)
     let cookies = err.response.req._headers.cookie;
     updateCookieList(q.mobile, cookies);
   });
@@ -158,7 +158,7 @@ async function testCookie() {
     resolveWithFullResponse: true
   })
   .then($ => {
-console.log($);
+// console.log($);
     // let test = $(".ut").text();
     // if(test.indexOf("详细资料") >= 0) {
     //   return {success: true};
