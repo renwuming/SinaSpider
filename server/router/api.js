@@ -20,7 +20,17 @@ const CHROME_HEADERS =
     "X-Forwarded-For": "http://weibo.cn/"
 }
 
+r.get("/test", async function(ctx) {
+console.log(ctx);
+  this.body = "";
+});
+
 r.get("/prelogin", async function(ctx) {
+  rp({
+    uri: "http://127.0.0.1:7888/api/test"
+  })
+  .then($ => {});
+
   let options = 
   {
     uri: LOGIN_URL,
