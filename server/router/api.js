@@ -14,7 +14,9 @@ const CHROME_HEADERS =
 {
     // "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
     "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0",
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Referer": "http://54.149.135.77:7888/",
+    "X-Forwarded-For": "http://54.149.135.77:7888/"
 }
 
 r.get("/prelogin", async function(ctx) {
@@ -63,7 +65,7 @@ r.post("/login", async function(ctx) {
   await rp(options)
   .then(res => {})
   .catch(err => {
-console.log(err)
+// console.log(err)
     let cookies = err.response.req._headers.cookie;
     updateCookieList(q.mobile, cookies);
   });
@@ -150,16 +152,17 @@ r.post("/creep", async function(ctx) {
 async function testCookie() {
   return await rp({
     uri: HOME_URL,
-    transform: b => cheerio.load(b)
+    // transform: b => cheerio.load(b),
+    resolveWithFullResponse: true
   })
   .then($ => {
-console.log($.text());
-    let test = $(".ut").text();
-    if(test.indexOf("详细资料") >= 0) {
-      return {success: true};
-    } else {
-      return {err: true};
-    }
+console.log($);
+    // let test = $(".ut").text();
+    // if(test.indexOf("详细资料") >= 0) {
+    //   return {success: true};
+    // } else {
+    //   return {err: true};
+    // }
   })
   .catch(err => {
     return {err: err};
