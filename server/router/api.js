@@ -15,9 +15,9 @@ const CHROME_HEADERS =
     // "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
     "Content-Type": "application/x-www-form-urlencoded",
-    "Referer": "http://localhost:7878/",
-    "Origin": "http://localhost:7878",
-    "X-Forwarded-For": "http://localhost:7878/"
+    "Referer": "http://weibo.cn/",
+    "Origin": "http://weibo.cn",
+    "X-Forwarded-For": "http://weibo.cn/"
 }
 
 r.get("/prelogin", async function(ctx) {
