@@ -174,6 +174,7 @@ async function testCookie() {
 }
 
 let updateCookieList = (name, cookie) => {
+console.log(cookie);
   if(!cookieList[name]) {
     cookieList[name] = {};
   }
