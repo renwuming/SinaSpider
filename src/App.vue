@@ -107,7 +107,7 @@ export default {
       accountlist: [{mobile: "15510978006", password: "460457", login: false}],
       creepAccount: -1,
       waitDeleteAccount: -1,
-      loginAccount: {mobile: "", password: "", login: false},
+      loginAccount: {mobile: "15510978006", password: "460457", login: false},
       newAccount: {mobile: "", password: "", login: false},
       showPreLogin: false,
       showAddAccount: false,
@@ -153,6 +153,23 @@ export default {
       if(creepAccount.login) {
         this.creepAccount = index;
       }
+    },
+    testlogin: function() {
+      // 获取验证码
+      this.axios.get("/api/prelogin")
+      .then(result => result.data)
+      .then(data => {
+        if(data.err) {
+          this.$vux.toast.show({
+            text: '请求失败',
+            type: "warn"
+          });
+        } else {
+          this.prelogindata = data;
+          this.showPreLogin = true;
+          this.login();
+        }
+      });
     },
     prelogin: function(account) {
       this.loginAccount = account;
@@ -255,10 +272,7 @@ export default {
     this.listHeight = H - 44 - 49 - 37 + "px";
     this.dialogHeight = H - 100 + "px";
 
-
-
-    this.axios.get("http://weibo.cn")
-    .then(result => result.data);
+    this.testlogin();
   }
 }
 </script>
