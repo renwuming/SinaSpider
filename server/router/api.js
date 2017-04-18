@@ -70,18 +70,22 @@ r.post("/login", async function(ctx) {
     uri: URI,
     qs: q,
     headers: CHROME_HEADERS,
-    resolveWithFullResponse: true
+    // resolveWithFullResponse: true,
+    // transform: b => cheerio.load(b),
   };
 
   await rp(options)
   .then(res => {})
   .catch(err => {
-console.log(err)
-    let cookies = err.response.req._headers.cookie;
-    updateCookieList(q.mobile, cookies);
+    let $ = cheerio.load(err.response.body).text();
+    if($.indexOf("您请求的页面不存在如果没有自动跳转,请点击这里") >= 0) {
+      ctx.body = {success: true};
+    } else {
+      ctx.body = {err: true};
+    }
   });
 
-  ctx.body = await testCookie();
+  // ctx.body = await testCookie();
 });
 
 r.post("/creep", async function(ctx) {
