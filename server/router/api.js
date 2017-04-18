@@ -29,11 +29,9 @@ r.get("/prelogin", async function(ctx) {
   {
     uri: LOGIN_URL,
     transform: b => cheerio.load(b),
-    // resolveWithFullResponse: true
   };
   await rp(options)
   .then($ => {
-// console.log($.req)
     let formdata = {};
     formdata.action = LOGIN_URL + $('form').attr('action');
     formdata.codeImg = $('form img').attr('src');
@@ -76,7 +74,6 @@ r.post("/login", async function(ctx) {
   await rp(options)
   .then(res => {})
   .catch(err => {
-console.log(err)
     let cookies = err.response.req._headers.cookie;
     updateCookieList(q.mobile, cookies);
   });
@@ -168,7 +165,6 @@ async function testCookie() {
   })
   .then($ => {
     let test = $(".ut").text();
-    return {success: true}; // ------- todo ------
     if(test.indexOf("详细资料") >= 0) {
       return {success: true};
     } else {
@@ -189,18 +185,17 @@ console.log(cookie);
 }
 
 let getCookie = (name) => {
-  // if(!cookieList[name]) {
-  //   return "";
-  // }
-  // let list = cookieList[name].cookie.split(";"),
-  //   cookie;
-  // list.forEach(e => {
-  //   if(e.indexOf("SUB=") >= 0) {
-  //     cookie = e;
-  //   }
-  // });
-  // return request.cookie(cookie);
-  return request.cookie("SUB=_2A2518YEJDeRhGeNK41sT-C3LzzWIHXVXHS9BrDV6PUJbkdANLRXFkW1_lGyxbzdmN-xDY-CLFu1VRQDG9g.."); // ------- todo ------
+  if(!cookieList[name]) {
+    return "";
+  }
+  let list = cookieList[name].cookie.split(";"),
+    cookie;
+  list.forEach(e => {
+    if(e.indexOf("SUB=") >= 0) {
+      cookie = e;
+    }
+  });
+  return request.cookie(cookie);
 }
 
 let decodeHtml = (str) => {
