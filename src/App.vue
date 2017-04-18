@@ -191,7 +191,6 @@ export default {
     login: function() {
       let loginIndex = this.accountlist.indexOf(this.loginAccount),
         req = _.merge({}, this.prelogindata, this.loginAccount);
-      this.loginloading = true;
       
       if(!req.password) {
         this.$vux.toast.show({
@@ -200,6 +199,7 @@ export default {
         });
         return;
       }
+      this.loginloading = true;
       // 登录新浪微博
       this.axios.post("/api/login", req)
       .then(result => result.data)
