@@ -191,6 +191,14 @@ export default {
     login: function() {
       let loginIndex = this.accountlist.indexOf(this.loginAccount),
         req = _.merge({}, this.prelogindata, this.loginAccount);
+
+      if(!req.password) {
+        this.$vux.toast.show({
+          text: '密码不能为空',
+          type: "warn"
+        });
+        return;
+      }
       this.loginloading = true;
       // 登录新浪微博
       this.axios.post("/api/login", req)
