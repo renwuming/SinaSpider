@@ -40,9 +40,9 @@
   <x-dialog v-model="showPreLogin" :hide-on-blur="true">
     <x-input title="账号" v-model="loginAccount.mobile" disabled></x-input>
     <x-input title="密码" v-model="loginAccount.password" placeholder="输入密码" type="password"></x-input>
-    <x-input title="验证码" v-model="prelogindata.code" placeholder="输入验证码">
+    <!-- <x-input title="验证码" v-model="prelogindata.code" placeholder="输入验证码">
       <img :src="prelogindata.codeImg" slot="right">
-    </x-input>
+    </x-input> -->
     <x-button type="primary" mini @click.native="login" style="margin-top:1em;margin-bottom:1em;" :show-loading="loginloading">登录</x-button>
   </x-dialog>
   <x-dialog v-model="showAddAccount" :hide-on-blur="true">
