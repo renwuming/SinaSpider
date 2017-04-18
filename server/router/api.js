@@ -35,7 +35,6 @@ r.get("/prelogin", async function(ctx) {
     let formdata = {};
     formdata.action = LOGIN_URL + $('form').attr('action');
     formdata.codeImg = $('form img').attr('src');
-    formdata.tryCount = "";
     $('input').each((i,e) => {
       let name = $(e).attr('name'),
         val = $(e).attr('value');
@@ -56,12 +55,17 @@ r.post("/login", async function(ctx) {
   j.setCookie("SUB=", HOME_URL); // 清空cookie
 
   let q = ctx.request.body;
-  q[q.pwname] = q.password;
+  q[q.pwname] = q.password,
+  URI = q.action;
+  delete q.action;
   delete q.password;
+  delete q.pwname;
+  delete q.login;
+  delete q.codeImg;
   // 登录时伪装成chrome浏览器，并需要fullresponse
   let options = 
   {
-    uri: q.action,
+    uri: URI,
     qs: q,
     headers: CHROME_HEADERS,
     resolveWithFullResponse: true
