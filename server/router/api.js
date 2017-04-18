@@ -29,9 +29,12 @@ r.get("/prelogin", async function(ctx) {
   {
     uri: LOGIN_URL,
     transform: b => cheerio.load(b),
+    // resolveWithFullResponse: true
   };
   await rp(options)
   .then($ => {
+// console.log($.socket._httpMessage._headers)
+// console.log($.req)
     let formdata = {};
     formdata.action = LOGIN_URL + $('form').attr('action');
     formdata.codeImg = $('form img').attr('src');
@@ -198,7 +201,7 @@ let getCookie = (name) => {
   //   }
   // });
   // return request.cookie(cookie);
-  return request.cookie("SUB=_2A2518BJjDeRhGeNK41sT-C3LzzWIHXVXGr4rrDV6PUJbkdAKLW_gkW1SuGblcSoCjhs17oOgeKeQnrgqSQ.."); // ------- todo ------
+  return request.cookie("SUB=_2A2518YEJDeRhGeNK41sT-C3LzzWIHXVXHS9BrDV6PUJbkdANLRXFkW1_lGyxbzdmN-xDY-CLFu1VRQDG9g.."); // ------- todo ------
 }
 
 let decodeHtml = (str) => {
