@@ -28,7 +28,7 @@ r.get("/prelogin", async function(ctx) {
   let options = 
   {
     uri: LOGIN_URL,
-    transform: b => cheerio.load(b)
+    transform: b => cheerio.load(b),
   };
   await rp(options)
   .then($ => {
@@ -70,6 +70,7 @@ r.post("/login", async function(ctx) {
   await rp(options)
   .then(res => {})
   .catch(err => {
+console.log(err)
     let cookies = err.response.req._headers.cookie;
     updateCookieList(q.mobile, cookies);
   });
