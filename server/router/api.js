@@ -33,7 +33,6 @@ r.get("/prelogin", async function(ctx) {
   };
   await rp(options)
   .then($ => {
-// console.log($.socket._httpMessage._headers)
 // console.log($.req)
     let formdata = {};
     formdata.action = LOGIN_URL + $('form').attr('action');
