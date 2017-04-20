@@ -15,8 +15,8 @@ exports.proxyTable = function () {
 }
 
 exports.assetsPath = function (_path) {
-  let assetsSubDirectory = config.dev.assetsSubDirectory
-  return path.posix.join(assetsSubDirectory, _path)
+  let assetsPath = config.build.assetsSubDirectory;
+  return path.posix.join(assetsPath, _path);
 }
 
 exports.cssLoaders = function (options) {

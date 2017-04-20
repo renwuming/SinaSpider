@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "webpack --color --config ./build/webpack.prod.config.js",
+    "build": "node build/build.js",
     "start": "node ./server/app.js"
   },
   "repository": {
@@ -46,6 +46,7 @@
     "http-proxy-middleware": "^0.17.4",
     "less-loader": "^4.0.3",
     "scss-loader": "^0.0.1",
+    "shelljs": "^0.7.7",
     "url-loader": "^0.5.7",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^11.3.4",
