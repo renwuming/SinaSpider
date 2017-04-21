@@ -78,7 +78,4 @@ html,body {
 .vux-swipeout-item:first-child .weui-cell:before {
   display: none !important;
 }
-.weui-dialog .weui-tab__panel {
-  padding-bottom: 0 !important;
-}
 </style>

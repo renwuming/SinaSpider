@@ -12,7 +12,7 @@
     </view-box>
   </group>
   
-  <x-dialog v-model="showDataDetail" :hide-on-blur="true">
+  <x-dialog v-model="showDataDetail" :hide-on-blur="true" :class="'p-d-none'">
     <view-box :style="{height: dialogHeight}">
       <img :src="showData.headimgurl" style="height:100px;margin-top:30px;">
       <group>
@@ -133,5 +133,7 @@ export default {
 </script>
 
 <style>
-
+.p-d-none .weui-tab__panel  {
+  padding-bottom: 0 !important;
+}
 </style>
