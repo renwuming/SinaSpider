@@ -5,7 +5,7 @@
       <x-button slot="right" type="primary" mini @click.native="creep">开始爬虫</x-button>
     </x-input>
     <divider v-show="dataList.length > 0">爬虫结果</divider>
-    <view-box v-show="dataList.length>0" :style="{height: listHeight}">
+    <view-box v-show="dataList.length>0" :style="{height: listHeight}" :class="'p-d-none2'">
       <cell v-for="(item, index) in dataList" :title="item.introlist[0].split(':')[1]+' - '+item.fans" :key="index" @click.native="showThisData(item)">
         <img :src="item.headimgurl" style="height:60px;">
       </cell>
@@ -133,7 +133,7 @@ export default {
 </script>
 
 <style>
-.p-d-none .weui-tab__panel  {
+.p-d-none .weui-tab__panel, .p-d-none2 {
   padding-bottom: 0 !important;
 }
 </style>
