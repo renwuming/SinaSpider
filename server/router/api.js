@@ -33,13 +33,14 @@ r.post("/login", async function(ctx) {
     headers: CHROME_HEADERS,
     resolveWithFullResponse: true,
   };
-
+  
   await rp(options)
   .then(res => {
     let cookies = res.headers["set-cookie"];
     updateCookieList(q.username, cookies);
   })
   .catch(err => {
+    console.log(err);
   });
   ctx.body = await testCookie();
 });
@@ -142,6 +143,7 @@ async function testCookie() {
 
 // 更新cookie列表
 let updateCookieList = (name, cookie) => {
+  if(!cookie) return;
   // 只存储SUB项
   cookie.filter(e => {
     e.indexOf("SUB=") >= 0
