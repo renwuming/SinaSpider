@@ -18,45 +18,10 @@ const CHROME_HEADERS =
     "X-Forwarded-For": "http://weibo.cn/"
 }
 
-r.get("/test", async function(ctx) {
-console.log(ctx);
-  this.body = "";
-});
-
-r.get("/prelogin", async function(ctx) {
-  let options = 
-  {
-    uri: LOGIN_URL,
-    transform: b => cheerio.load(b),
-    // resolveWithFullResponse: true
-  };
-  await rp(options)
-  .then($ => {
-    let formdata = {};
-    formdata.action = LOGIN_URL + $('form').attr('action');
-    formdata.codeImg = $('form img').attr('src');
-    $('input').each((i,e) => {
-      let name = $(e).attr('name'),
-        val = $(e).attr('value');
-      if(name.indexOf('password')>=0) {
-        formdata.pwname = name;
-      } else {
-        formdata[name] = val;
-      }
-    });
-    ctx.body = formdata;
-  })
-  .catch(err => {
-    ctx.body = {err: err};
-  });
-});
-
 r.post("/login", async function(ctx) {
-  j.setCookie("SUB=", HOME_URL); // 清空cookie
+  clearJar();
 
   let q = ctx.request.body;
-  q.username = q.mobile;
-  delete q.mobile;
   delete q.login;
   // 登录时伪装成chrome浏览器，并需要fullresponse
   let options = 
@@ -64,23 +29,18 @@ r.post("/login", async function(ctx) {
     method: 'POST',
     uri: LOGIN_URL,
     formData: q,
+    // followRedirect: false,
     headers: CHROME_HEADERS,
-    // resolveWithFullResponse: true,
-    transform: b => cheerio.load(b),
+    resolveWithFullResponse: true,
   };
 
   await rp(options)
   .then(res => {
+    let cookies = res.headers["set-cookie"];
+    updateCookieList(q.username, cookies);
   })
   .catch(err => {
-    // let $ = cheerio.load(err.response.body).text();
-    // if($.indexOf("您请求的页面不存在如果没有自动跳转,请点击这里") >= 0) {
-    //   ctx.body = {success: true};
-    // } else {
-    //   ctx.body = {err: true};
-    // }
   });
-console.log(j); // 查看cookie
   ctx.body = await testCookie();
 });
 
@@ -99,8 +59,9 @@ r.post("/creep", async function(ctx) {
     wblist = [],
     fanslist = [],
     creepData = {totalPage: 1, rows: []};
-  j.setCookie("SUB=", HOME_URL); // 清空cookie
+  clearJar();
   j.setCookie(getCookie(cookie_name), HOME_URL); // 使用指定账号的cookie
+console.log(j);
 
   await rp(options)
   .then($ => {
@@ -168,7 +129,6 @@ async function testCookie() {
   })
   .then($ => {
     let test = $(".ut").text();
-    return {success: true}; // ------- todo ------
     if(test.indexOf("详细资料") >= 0) {
       return {success: true};
     } else {
@@ -180,29 +140,35 @@ async function testCookie() {
   });
 }
 
+// 更新cookie列表
 let updateCookieList = (name, cookie) => {
-console.log(cookie);
+  // 只存储SUB项
+  cookie.filter(e => {
+    e.indexOf("SUB=") >= 0
+  });
   if(!cookieList[name]) {
     cookieList[name] = {};
   }
-  cookieList[name].cookie = cookie;
+  cookieList[name].cookie = cookie[0];
 }
 
+// 从cookie列表读取
 let getCookie = (name) => {
-  // if(!cookieList[name]) {
-  //   return "";
-  // }
-  // let list = cookieList[name].cookie.split(";"),
-  //   cookie;
-  // list.forEach(e => {
-  //   if(e.indexOf("SUB=") >= 0) {
-  //     cookie = e;
-  //   }
-  // });
-  // return request.cookie(cookie);
-  return request.cookie("SUB=_2A251-n3CDeRhGeNK41sT-C3LzzWIHXVXBQOKrDV6PUJbkdANLUPWkW1s_TNErOpy24G6aILIaEyhXWQGrQ.."); // ------- todo ------
+  if(!cookieList[name]) {
+    return "";
+  }
+  return request.cookie(cookieList[name].cookie);
 }
 
+// 清空cookie
+let clearJar = () => {
+  j.setCookie("SUB=", HOME_URL);
+  j.setCookie("SUHB=", HOME_URL);
+  j.setCookie("SCF=", HOME_URL);
+  j.setCookie("SSOLoginState=", HOME_URL);
+}
+
+// 解码html
 let decodeHtml = (str) => {
   if(!str) str = "";
   let s = str.replace(/&#x[\dA-F]{2,4};/g, hex => String.fromCharCode('0' + hex.slice(2, -1)) );

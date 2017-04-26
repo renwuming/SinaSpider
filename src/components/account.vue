@@ -6,7 +6,7 @@
         <div slot="right-menu">
           <swipeout-button type="warn" @click.native="deleteAccount(index)">删除</swipeout-button>
         </div>
-        <cell :title="item.mobile" :key="index" @click.native="selectAccount(index)" slot="content">
+        <cell :title="item.username" :key="index" @click.native="selectAccount(index)" slot="content">
           <x-button v-show="!item.login" type="primary" mini @click.native="prelogin(item)">登录</x-button>
           <icon v-show="creepAccount === index" type="success"></icon>
         </cell>
@@ -18,7 +18,7 @@
   </div>
 
   <x-dialog v-model="showPreLogin" :hide-on-blur="true">
-    <x-input title="账号" v-model="loginAccount.mobile" disabled></x-input>
+    <x-input title="账号" v-model="loginAccount.username" disabled></x-input>
     <x-input title="密码" v-model="loginAccount.password" placeholder="输入密码" type="password"></x-input>
     <!-- <x-input title="验证码" v-model="prelogindata.code" placeholder="输入验证码">
       <img :src="prelogindata.codeImg" slot="right">
@@ -26,7 +26,7 @@
     <x-button type="primary" mini @click.native="login" style="margin-top:1em;margin-bottom:1em;" :show-loading="loginloading">登录</x-button>
   </x-dialog>
   <x-dialog v-model="showAddAccount" :hide-on-blur="true">
-    <x-input title="账号" v-model.trim="newAccount.mobile" placeholder="输入账号"></x-input>
+    <x-input title="账号" v-model.trim="newAccount.username" placeholder="输入账号"></x-input>
     <x-button type="primary" mini @click.native="addAccount" style="margin-top:1em;margin-bottom:1em;">确定</x-button>
   </x-dialog>
   <actionsheet v-model="showConfirm" :menus="confirmMenu" @on-click-menu-delete="deleteAccountReal" show-cancel></actionsheet>
@@ -74,9 +74,8 @@ export default {
       showAddAccount: false,
       showConfirm: false,
       loginloading: false,
-      loginAccount: {mobile: "", password: "", login: false},
-      newAccount: {mobile: "", password: "", login: false},
-      prelogindata: {},
+      loginAccount: {username: "", password: "", login: false},
+      newAccount: {username: "", password: "", login: false},
       waitDeleteAccount: -1,
     }
   },
@@ -96,7 +95,7 @@ export default {
     },
     addAccount: function() {
       let account = _.merge({}, this.newAccount);
-      if(!account.mobile) {
+      if(!account.username) {
         this.$vux.toast.show({
           text: '账号不能为空',
           type: "warn"
@@ -105,7 +104,7 @@ export default {
       }
       this.$store.commit("push_accountlist", account);
       this.showAddAccount = false;
-      this.newAccount.mobile = "";
+      this.newAccount.username = "";
     },
     selectAccount: function(index) {
       let creepAccount = this.accountlist[index];

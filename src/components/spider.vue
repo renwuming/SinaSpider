@@ -94,7 +94,7 @@ export default {
       })
       this.axios.post("/api/creep", {
         keyword: this.keyword,
-        cookie: account.mobile
+        cookie: account.username
       })
       .then(result => result.data)
       .then(data => {

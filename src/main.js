@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 const  store = new Vuex.Store({
   state: {
     creepAccount: -1,
-    accountlist: [{mobile: "15510978006", password: "460457", login: false}],
+    accountlist: [{username: "15510978006", password: "460457", login: false}],
   },
   mutations: {
     creepAccount: (state, index) => {
