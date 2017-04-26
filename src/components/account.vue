@@ -113,43 +113,13 @@ export default {
         this.$store.commit("creepAccount", index);
       }
     },
-    testlogin: function() {
-      // 获取验证码
-      this.axios.get("/api/prelogin")
-      .then(result => result.data)
-      .then(data => {
-        if(data.err) {
-          this.$vux.toast.show({
-            text: '请求失败',
-            type: "warn"
-          });
-        } else {
-          this.prelogindata = data;
-          this.showPreLogin = true;
-          this.login();
-        }
-      });
-    },
     prelogin: function(account) {
       this.loginAccount = account;
-      // 获取验证码
-      this.axios.get("/api/prelogin")
-      .then(result => result.data)
-      .then(data => {
-        if(data.err) {
-          this.$vux.toast.show({
-            text: '请求失败',
-            type: "warn"
-          });
-        } else {
-          this.prelogindata = data;
-          this.showPreLogin = true;
-        }
-      });
+      this.showPreLogin = true;
     },
     login: function() {
       let loginIndex = this.accountlist.indexOf(this.loginAccount),
-        req = _.merge({}, this.prelogindata, this.loginAccount);
+        req = _.merge({}, this.loginAccount);
 
       if(!req.password) {
         this.$vux.toast.show({

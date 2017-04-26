@@ -7,13 +7,12 @@ const _ = require("lodash")
 
 let cookieList = {};
 
-const LOGIN_URL = "https://weibo.cn/login/?rand=1850956659&backURL=http%3A%2F%2Fweibo.cn&backTitle=%E6%89%8B%E6%9C%BA%E6%96%B0%E6%B5%AA%E7%BD%91&vt=4";
+const LOGIN_URL = "https://passport.weibo.cn/sso/login";
 const HOME_URL = "http://weibo.cn/"
 const SEARCH_URL = 'https://weibo.cn/search/';
 const CHROME_HEADERS = 
 {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-    "Content-Type": "application/x-www-form-urlencoded",
     "Referer": "http://weibo.cn/",
     "Origin": "http://weibo.cn",
     "X-Forwarded-For": "http://weibo.cn/"
@@ -33,7 +32,6 @@ r.get("/prelogin", async function(ctx) {
   };
   await rp(options)
   .then($ => {
-// console.log($.req)
     let formdata = {};
     formdata.action = LOGIN_URL + $('form').attr('action');
     formdata.codeImg = $('form img').attr('src');
@@ -57,35 +55,33 @@ r.post("/login", async function(ctx) {
   j.setCookie("SUB=", HOME_URL); // 清空cookie
 
   let q = ctx.request.body;
-  q[q.pwname] = q.password,
-  URI = q.action;
-  delete q.action;
-  delete q.password;
-  delete q.pwname;
+  q.username = q.mobile;
+  delete q.mobile;
   delete q.login;
-  delete q.codeImg;
   // 登录时伪装成chrome浏览器，并需要fullresponse
   let options = 
   {
-    uri: URI,
-    qs: q,
+    method: 'POST',
+    uri: LOGIN_URL,
+    formData: q,
     headers: CHROME_HEADERS,
     // resolveWithFullResponse: true,
-    // transform: b => cheerio.load(b),
+    transform: b => cheerio.load(b),
   };
 
   await rp(options)
-  .then(res => {})
+  .then(res => {
+  })
   .catch(err => {
-    let $ = cheerio.load(err.response.body).text();
-    if($.indexOf("您请求的页面不存在如果没有自动跳转,请点击这里") >= 0) {
-      ctx.body = {success: true};
-    } else {
-      ctx.body = {err: true};
-    }
+    // let $ = cheerio.load(err.response.body).text();
+    // if($.indexOf("您请求的页面不存在如果没有自动跳转,请点击这里") >= 0) {
+    //   ctx.body = {success: true};
+    // } else {
+    //   ctx.body = {err: true};
+    // }
   });
-
-  // ctx.body = await testCookie();
+console.log(j); // 查看cookie
+  ctx.body = await testCookie();
 });
 
 r.post("/creep", async function(ctx) {
@@ -144,7 +140,7 @@ r.post("/creep", async function(ctx) {
     })
     .then($ => {
       let headimgurl = $("img[alt=头像]").attr("src");
-      let intro = $("div.c").eq(2).html().split("<br>");
+      let intro = $("div.c").eq(3).html().split("<br>");
       intro = _.map(intro, item => decodeHtml(item));
       intro.pop();
       intro.pop();
