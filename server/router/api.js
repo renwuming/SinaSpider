@@ -18,6 +18,12 @@ const CHROME_HEADERS =
     "X-Forwarded-For": "http://weibo.cn/"
 }
 
+r.get("/jsonp", async function(ctx) {
+  let callback = ctx.request.query.callback;
+  if(callback instanceof Array) callback = callback[0];
+  ctx.body = callback + "({success:true})";
+});
+
 r.post("/login", async function(ctx) {
   clearJar();
 
@@ -33,7 +39,7 @@ r.post("/login", async function(ctx) {
     headers: CHROME_HEADERS,
     resolveWithFullResponse: true,
   };
-  
+
   await rp(options)
   .then(res => {
     let cookies = res.headers["set-cookie"];

@@ -31,7 +31,7 @@ const  store = new Vuex.Store({
     creepAccount: state => state.creepAccount,
     accountlist: state => state.accountlist,
   }
-})
+});
 
 new Vue({
   el: '#app',
