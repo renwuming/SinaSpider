@@ -129,7 +129,7 @@ export default {
       }
       this.loginloading = true;
       // 登录新浪微博
-      this.axios.post("/api/login", req)
+      this.axios.post("./api/login", req)
       .then(result => result.data)
       .then(data => {
         this.loginloading = false;

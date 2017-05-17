@@ -92,7 +92,7 @@ export default {
       this.$vux.loading.show({
         text: '数据爬取ing'
       })
-      this.axios.post("/api/creep", {
+      this.axios.post("./api/creep", {
         keyword: this.keyword,
         cookie: account.username
       })
